@@ -1,0 +1,376 @@
+/* Hallmark · genre: editorial · macrostructure: Split Studio · H2 hero knobs: ratio=7/5, right=heritage panel, divider=negative-space
+ * theme: custom · vibe: "Ife-bronze heritage, forest green, gold, archival" · paper: oklch(96.5% 0.014 88) · accent: oklch(72% 0.135 80)
+ * display: Fraunces · body: Hanken Grotesk · mono: JetBrains Mono · axes: light / roman-serif / chromatic-amber(gold)
+ * nav: N6 masthead · footer: Ft4 colophon · studied: no · context: user-provided · v1.0.0
+ * pre-emit critique: P5 H5 E5 S5 R5 V5
+ * contrast: pass (46–50) · slop: pass (51–55) · honest: pass (56) · chrome: pass (57)
+ * tokens: pass (58) · responsive: pass (59) · icons: pass (60) · mobile: pass (36, 61–69, verified 320/375/414/768 scrollW=vw)
+ */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    /* ---- Paper / surfaces (warm cream) ---- */
+    --color-paper:   oklch(96.5% 0.014 88);
+    --color-paper-2: oklch(94% 0.018 86);
+    --color-paper-3: oklch(90.5% 0.022 82);
+
+    /* ---- Ink / text (warm forest-black) ---- */
+    --color-ink:    oklch(24% 0.022 150);
+    --color-ink-2:  oklch(40% 0.020 145);
+    --color-muted:  oklch(45% 0.020 138);
+
+    /* ---- Hairlines ---- */
+    --color-rule:   oklch(83% 0.020 90);
+    --color-rule-2: oklch(88% 0.016 90);
+
+    /* ---- Forest (structural brand / dark bands) ---- */
+    --color-forest:      oklch(38% 0.085 156);
+    --color-forest-2:    oklch(47% 0.092 152);
+    --color-forest-deep: oklch(30% 0.070 156);
+    --color-on-forest:   oklch(95% 0.018 90);
+    --color-on-forest-2: oklch(86% 0.030 100);
+    --color-rule-forest: oklch(52% 0.050 156);
+
+    /* ---- Accent (gold-ochre · jewel, < 5% footprint) ---- */
+    --color-accent:      oklch(72% 0.135 80);
+    --color-accent-deep: oklch(63% 0.130 72);
+    --color-on-accent:   oklch(24% 0.022 150);
+
+    /* ---- Bronze (heritage tone · imagery only) ---- */
+    --color-bronze: oklch(52% 0.095 50);
+
+    /* ---- Danger (warm brick · form errors only) ---- */
+    --color-danger: oklch(51% 0.150 28);
+
+    /* ---- Plate (logo mount · matches the crest JPEG's white backing,
+            so the white box reads as a deliberate mounted seal) ---- */
+    --color-plate: oklch(100% 0 0);
+
+    /* ---- Focus ---- */
+    --color-focus: oklch(45% 0.110 156);
+
+    /* ---- Type scale (1.25 major third) ---- */
+    --text-xs:   0.75rem;
+    --text-sm:   0.875rem;
+    --text-base: 1rem;
+    --text-md:   1.25rem;
+    --text-lg:   1.5625rem;
+    --text-xl:   1.953rem;
+    --text-2xl:  2.441rem;
+    --text-3xl:  3.052rem;
+    --text-4xl:  3.815rem;
+    --text-display:   clamp(2.75rem, 4.5vw + 1rem, 5.25rem);
+    --text-display-s: clamp(2.25rem, 3vw + 1rem, 3.5rem);
+
+    /* ---- Spacing (4pt scale) ---- */
+    --space-2xs: 0.25rem;
+    --space-xs:  0.5rem;
+    --space-sm:  0.75rem;
+    --space-md:  1rem;
+    --space-lg:  1.5rem;
+    --space-xl:  2.5rem;
+    --space-2xl: 4rem;
+    --space-3xl: 6rem;
+    --space-4xl: 9rem;
+
+    /* ---- Motion ---- */
+    --ease-out:    cubic-bezier(0.22, 1, 0.36, 1);
+    --ease-in:     cubic-bezier(0.64, 0, 0.78, 0);
+    --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+    --dur-short:   160ms;
+    --dur-medium:  280ms;
+    --dur-long:    520ms;
+
+    /* ---- Radius (editorial · near-sharp) ---- */
+    --radius-sm: 2px;
+    --radius-md: 4px;
+    --radius-lg: 8px;
+
+    /* ---- z-index scale ---- */
+    --z-raised: 10;
+    --z-sticky: 100;
+    --z-header: 200;
+    --z-overlay: 1000;
+  }
+
+  .dark {
+    --color-paper:   oklch(20% 0.022 156);
+    --color-paper-2: oklch(24% 0.026 156);
+    --color-paper-3: oklch(28% 0.030 154);
+
+    --color-ink:    oklch(93% 0.018 90);
+    --color-ink-2:  oklch(78% 0.020 95);
+    --color-muted:  oklch(62% 0.020 100);
+
+    --color-rule:   oklch(34% 0.026 156);
+    --color-rule-2: oklch(30% 0.024 156);
+
+    --color-forest:      oklch(34% 0.075 156);
+    --color-forest-2:    oklch(40% 0.085 152);
+    --color-forest-deep: oklch(16% 0.020 156);
+    --color-on-forest:   oklch(94% 0.018 90);
+    --color-on-forest-2: oklch(80% 0.030 100);
+    --color-rule-forest: oklch(46% 0.045 156);
+
+    --color-accent:      oklch(76% 0.140 82);
+    --color-accent-deep: oklch(70% 0.135 78);
+    --color-on-accent:   oklch(20% 0.022 156);
+
+    --color-bronze: oklch(58% 0.100 52);
+
+    --color-danger: oklch(70% 0.150 28);
+
+    --color-focus: oklch(78% 0.150 82);
+  }
+
+  * {
+    border-color: var(--color-rule);
+  }
+
+  html {
+    overflow-x: clip;
+    scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    overflow-x: clip;
+    background-color: var(--color-paper);
+    color: var(--color-ink);
+    font-family: "Hanken Grotesk", ui-sans-serif, system-ui, sans-serif;
+    font-size: var(--text-base);
+    line-height: 1.6;
+    font-feature-settings: "ss01";
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    transition: background-color var(--dur-medium) var(--ease-out),
+                color var(--dur-medium) var(--ease-out);
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: "Fraunces", ui-serif, Georgia, serif;
+    color: var(--color-ink);
+    letter-spacing: -0.02em;
+    overflow-wrap: anywhere;
+    min-width: 0;
+  }
+
+  ::selection {
+    background-color: var(--color-accent);
+    color: var(--color-on-accent);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-focus);
+    outline-offset: 2px;
+    border-radius: var(--radius-sm);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    *, *::before, *::after {
+      animation-duration: 0.001ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.001ms !important;
+    }
+  }
+}
+
+@keyframes hm-rise {
+  from { opacity: 0; transform: translateY(16px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* Heritage seal — a slow ceremonial turn + a breathing kola heart */
+/* Splash dots — a calm breathing pulse, no bounce */
+@keyframes splash-pulse {
+  0%, 100% { opacity: 0.25; }
+  50%      { opacity: 1; }
+}
+
+@keyframes heritage-rotate {
+  to { transform: rotate(360deg); }
+}
+@keyframes heritage-bloom {
+  0%, 100% { transform: scale(1); }
+  50%      { transform: scale(1.07); }
+}
+
+@layer components {
+  /* One orchestrated entrance — visible by default; animates only when motion
+     is welcome, so the LCP hero never depends on JS to become visible. */
+  .reveal { opacity: 1; }
+  @media (prefers-reduced-motion: no-preference) {
+    .reveal {
+      opacity: 0;
+      animation: hm-rise var(--dur-long) var(--ease-out) both;
+      animation-delay: var(--reveal-delay, 0ms);
+    }
+  }
+
+  /* Dark (forest) surfaces flip the focus ring to gold for visible contrast */
+  .focus-on-dark {
+    --color-focus: var(--color-accent);
+  }
+
+  /* Living heritage seal — the rosette turns about its centre, the kola heart
+     breathes. Decorative only; both are stilled under reduced-motion. */
+  .heritage-ring,
+  .heritage-bloom {
+    transform-box: fill-box;
+    transform-origin: center;
+  }
+  .splash-dot {
+    animation: splash-pulse 1.1s var(--ease-in-out) infinite;
+  }
+
+  /* 3D tilt panel — pointer-tracked, GPU-only (transform/opacity).
+     Layers float at their own depth via --lift; the sheen follows the cursor. */
+  .tilt {
+    perspective: 1000px;
+  }
+  .tilt-card {
+    position: relative;
+    transform-style: preserve-3d;
+    transform: rotateX(var(--tilt-x, 0deg)) rotateY(var(--tilt-y, 0deg));
+    transition: transform 480ms var(--ease-out);
+    will-change: transform;
+  }
+  .tilt-card.is-tilting {
+    transition: transform 80ms linear;
+  }
+  .tilt-layer {
+    transform: translateZ(var(--lift, 0px));
+  }
+  .tilt-sheen {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    transform: translateZ(2px);
+    background: radial-gradient(
+      34rem circle at var(--sheen-x, 50%) var(--sheen-y, 50%),
+      color-mix(in oklab, var(--color-on-forest) 13%, transparent),
+      transparent 42%
+    );
+    opacity: 0;
+    transition: opacity var(--dur-medium) var(--ease-out);
+  }
+  .tilt-card.is-tilting .tilt-sheen {
+    opacity: 1;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .tilt { perspective: none; }
+    .tilt-card,
+    .tilt-layer { transform: none !important; }
+    .tilt-sheen { display: none; }
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .heritage-ring  { animation: heritage-rotate 90s linear infinite; }
+    .heritage-bloom { animation: heritage-bloom 7s var(--ease-in-out) infinite; }
+  }
+
+  /* Hairline rule — the editorial divider language */
+  .hl-rule {
+    border: 0;
+    border-top: 1px solid var(--color-rule);
+  }
+
+  /* Eyebrow / kicker — small caps, tracked */
+  .eyebrow {
+    font-family: "JetBrains Mono", ui-monospace, monospace;
+    font-size: var(--text-xs);
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--color-muted);
+  }
+
+  /* Tabular figures for any data display */
+  .tnum {
+    font-variant-numeric: tabular-nums;
+    font-feature-settings: "tnum";
+  }
+
+  /* Outlined chip CTA (C1) — rectangular, near-sharp */
+  .chip {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-xs);
+    padding: 0.75rem 1.25rem;
+    font-family: "Hanken Grotesk", ui-sans-serif, system-ui, sans-serif;
+    font-weight: 600;
+    font-size: var(--text-sm);
+    line-height: 1;
+    white-space: nowrap;
+    border: 1px solid var(--color-ink);
+    border-radius: var(--radius-md);
+    color: var(--color-ink);
+    background: transparent;
+    cursor: pointer;
+    transition: background-color var(--dur-short) var(--ease-out),
+                color var(--dur-short) var(--ease-out),
+                border-color var(--dur-short) var(--ease-out);
+  }
+  .chip:hover { background-color: var(--color-ink); color: var(--color-paper); }
+  .chip:active { transform: translateY(1px); }
+
+  .chip--solid {
+    border-color: var(--color-accent);
+    background-color: var(--color-accent);
+    color: var(--color-on-accent);
+  }
+  .chip--solid:hover {
+    background-color: var(--color-accent-deep);
+    border-color: var(--color-accent-deep);
+    color: var(--color-on-accent);
+  }
+
+  .chip--on-forest {
+    border-color: var(--color-on-forest-2);
+    color: var(--color-on-forest);
+  }
+  .chip--on-forest:hover {
+    background-color: var(--color-on-forest);
+    color: var(--color-forest-deep);
+    border-color: var(--color-on-forest);
+  }
+
+  /* Typographic link CTA (C3) — word + arrow + animated underline */
+  .tlink {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2xs);
+    font-weight: 600;
+    font-size: var(--text-sm);
+    color: var(--color-ink);
+    white-space: nowrap;
+    background-image: linear-gradient(var(--color-accent), var(--color-accent));
+    background-repeat: no-repeat;
+    background-position: 0 100%;
+    background-size: 0% 2px;
+    padding-bottom: 2px;
+    transition: background-size var(--dur-medium) var(--ease-out);
+  }
+  .tlink:hover { background-size: 100% 2px; }
+  .tlink svg {
+    transition: transform var(--dur-short) var(--ease-out);
+  }
+  .tlink:hover svg { transform: translateX(3px); }
+}
+
+/* ── ID card print + export ─────────────────────────────────────────────── */
+/* Keep the card's filled colours when printing or exporting to PNG. */
+.id-card {
+  -webkit-print-color-adjust: exact;
+  print-color-adjust: exact;
+}
+@media print {
+  /* Only the ID cards should reach the printed page. */
+  .no-print { display: none !important; }
+  .id-card { box-shadow: none !important; }
+  .id-card-set { gap: 16mm !important; }
+  @page { margin: 14mm; }
+}

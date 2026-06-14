@@ -1,0 +1,52 @@
+appId: ng.plyss.admin
+productName: PLYSS Admin
+copyright: © PLYSS — Plateau Yoruba Statistical Survey
+
+directories:
+  buildResources: build
+  output: dist-app
+
+# electron-vite emits the compiled main/preload/renderer into out/.
+files:
+  - out/**/*
+  - package.json
+
+# Don't ship source maps in the packaged app.
+asarUnpack:
+  - resources/**
+
+# Platform icons are auto-derived from build/icon.png (1024×1024).
+
+mac:
+  category: public.app-category.business
+  target:
+    - dmg
+    - zip
+  hardenedRuntime: true
+  gatekeeperAssess: false
+
+dmg:
+  artifactName: ${productName}-${version}-${arch}.${ext}
+
+win:
+  target:
+    - nsis
+  artifactName: ${productName}-${version}-Setup.${ext}
+
+nsis:
+  oneClick: false
+  perMachine: false
+  allowToChangeInstallationDirectory: true
+
+linux:
+  target:
+    - AppImage
+    - deb
+  category: Office
+  maintainer: PLYSS
+  artifactName: ${productName}-${version}.${ext}
+
+# Wire this up to your release host (GitHub, S3, generic) to enable auto-update.
+# publish:
+#   provider: generic
+#   url: https://downloads.plyss.ng/desktop

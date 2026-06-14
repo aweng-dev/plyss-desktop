@@ -1,0 +1,19 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>PLYSS Admin</title>
+    <style>
+      /* Match the app shell background so there is no flash before React paints. */
+      html, body { margin: 0; background: #1f3d2b; }
+      #root { min-height: 100vh; }
+    </style>
+    <!-- Fonts are bundled locally via @fontsource (see src/renderer/src/desktop/fonts.ts)
+         so the app renders fully offline — no Google Fonts CDN dependency. -->
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="./src/main.tsx"></script>
+  </body>
+</html>
