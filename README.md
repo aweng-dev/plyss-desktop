@@ -168,10 +168,10 @@ per-weight subsets (incl. latin-ext) are bundled so Yoruba names with diacritics
 | `npm run typecheck` | Type-check renderer and node code |
 | `npm run dist` | Build + package installers for the current OS |
 | `npm run dist:mac` / `dist:win` / `dist:linux` | Package for a specific OS |
+| `npm run release` | Build + publish installers and update manifests to GitHub Releases |
 
 Packaging is configured in `electron-builder.yml`. Icons for every platform are
-auto-derived from `build/icon.png`. To enable auto-update, uncomment and point
-the `publish` block at your release host.
+auto-derived from `build/icon.png`.
 
 ### Installing an unsigned local build
 
@@ -198,3 +198,49 @@ notarize with a Developer ID (set `CSC_LINK`/`CSC_KEY_PASSWORD` and the
 > **Note:** When running under automation that sets `ELECTRON_RUN_AS_NODE=1`,
 > Electron starts in Node mode and `app` is undefined. Unset that variable to
 > launch the real GUI (`env -u ELECTRON_RUN_AS_NODE npm run start`).
+
+---
+
+## Releases & auto-update
+
+Releases are served from the public GitHub repo
+[`aweng-dev/plyss-desktop`](https://github.com/aweng-dev/plyss-desktop), and the
+app updates itself from there using `electron-updater`.
+
+### How it works
+- `electron-builder.yml` has `publish: { provider: github, owner: aweng-dev, repo: plyss-desktop }`.
+  On publish, electron-builder uploads the installers **and** the update manifests
+  (`latest.yml`, `latest-mac.yml`, `latest-linux.yml`) to a GitHub Release, and
+  bakes an `app-update.yml` into the app.
+- On launch (packaged builds only), `src/main/updater.ts` checks the latest
+  release, downloads a newer version in the background, and offers a **Restart to
+  update** prompt. There's also a **Check for Updates…** menu item. A public repo
+  needs no token on the client side.
+
+### Cutting a release
+Tag a version and let CI build every platform:
+
+```bash
+npm version 1.0.1 --no-git-tag-version   # bump package.json "version"
+git commit -am "release: v1.0.1"
+git tag v1.0.1
+git push --follow-tags                    # triggers .github/workflows/release.yml
+```
+
+The workflow builds on macOS, Windows and Linux and uploads to a **draft** GitHub
+Release. Review the assets, then click **Publish release** — only then do installed
+apps see the update. (Keep the git tag in sync with `package.json` "version".)
+
+To publish from your own machine instead of CI:
+
+```bash
+export GH_TOKEN=<a personal access token with repo scope>
+npm run release
+```
+
+### Platform support for auto-update
+| Platform | Auto-update | Notes |
+| --- | --- | --- |
+| Windows (NSIS) | ✅ works unsigned | SmartScreen may warn on first install |
+| Linux (AppImage) | ✅ works unsigned | |
+| macOS | ⚠️ needs signing | Squirrel.Mac refuses unsigned updates. Configure a Developer ID (`CSC_LINK`/`CSC_KEY_PASSWORD`) + notarization to enable; until then the mac check fails quietly and users update by downloading a new build. |

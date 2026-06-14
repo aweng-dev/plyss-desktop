@@ -1,5 +1,6 @@
 import { app, Menu, shell, type BrowserWindow, type MenuItemConstructorOptions } from 'electron'
 import { PUBLIC_SITE_URL } from './config'
+import { checkForUpdatesManually } from './updater'
 
 // A native application menu. Beyond the standard roles it adds quick navigation
 // to each admin section and a Sign-out command, both delivered to the renderer
@@ -22,6 +23,7 @@ export function buildMenu(getWindow: () => BrowserWindow | null): Menu {
           label: app.name,
           submenu: [
             { role: 'about' },
+            { label: 'Check for Updates…', click: () => checkForUpdatesManually() },
             { type: 'separator' },
             { role: 'services' },
             { type: 'separator' },
@@ -111,7 +113,13 @@ export function buildMenu(getWindow: () => BrowserWindow | null): Menu {
         label: 'Contact Data Lead',
         click: () => shell.openExternal('mailto:info@plyss.org'),
       },
-      ...(!isMac ? ([{ type: 'separator' }, { role: 'about' }] as MenuItemConstructorOptions[]) : []),
+      ...(!isMac
+        ? ([
+            { type: 'separator' },
+            { label: 'Check for Updates…', click: () => checkForUpdatesManually() },
+            { role: 'about' },
+          ] as MenuItemConstructorOptions[])
+        : []),
     ],
   }
 

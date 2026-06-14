@@ -3,6 +3,7 @@ import { join } from 'node:path'
 import { registerApiProxy } from './api'
 import { buildMenu } from './menu'
 import { loadWindowState, trackWindowState, WINDOW_MIN } from './windowState'
+import { initAutoUpdates } from './updater'
 import { BRAND_BG } from './config'
 
 // electron-vite sets this to the dev-server URL while developing; it is undefined
@@ -141,6 +142,7 @@ if (!gotLock) {
     Menu.setApplicationMenu(buildMenu(() => mainWindow))
 
     createWindow()
+    initAutoUpdates()
 
     app.on('activate', () => {
       if (BrowserWindow.getAllWindows().length === 0) createWindow()
