@@ -41,8 +41,16 @@ jobs:
         env:
           # Default token; has contents:write for this repo via the job permission.
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          # No Apple Developer cert in CI — skip mac code signing. (macOS
-          # auto-update needs signing + notarization; configure CSC_LINK /
-          # APPLE_ID secrets here to enable it.)
-          CSC_IDENTITY_AUTO_DISCOVERY: false
+
+          # macOS code signing + notarization. All optional — when these repo
+          # secrets are unset they pass through empty and the build stays unsigned
+          # (electron-builder.cjs gates notarization on their presence). Windows
+          # and Linux ignore them.
+          CSC_LINK: ${{ secrets.MAC_CSC_LINK }}                       # base64 of the Developer ID Application .p12
+          CSC_KEY_PASSWORD: ${{ secrets.MAC_CSC_KEY_PASSWORD }}       # the .p12 export password
+          APPLE_ID: ${{ secrets.APPLE_ID }}                          # Apple ID email
+          APPLE_APP_SPECIFIC_PASSWORD: ${{ secrets.APPLE_APP_SPECIFIC_PASSWORD }}
+          APPLE_TEAM_ID: ${{ secrets.APPLE_TEAM_ID }}                # 10-char Team ID
+          # Only let electron-builder attempt signing when a cert is actually supplied.
+          CSC_IDENTITY_AUTO_DISCOVERY: ${{ secrets.MAC_CSC_LINK != '' }}
         run: npm run release
