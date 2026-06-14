@@ -46,7 +46,11 @@ linux:
   maintainer: PLYSS
   artifactName: ${productName}-${version}.${ext}
 
-# Wire this up to your release host (GitHub, S3, generic) to enable auto-update.
-# publish:
-#   provider: generic
-#   url: https://downloads.plyss.ng/desktop
+# Releases + auto-update are served from the public GitHub repo. electron-builder
+# uploads the installers and the update manifests (latest*.yml) to a GitHub
+# Release, and bakes an app-update.yml into the app so electron-updater can find
+# them at runtime (no token needed for a public repo).
+publish:
+  provider: github
+  owner: aweng-dev
+  repo: plyss-desktop

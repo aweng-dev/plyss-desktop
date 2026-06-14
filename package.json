@@ -4,6 +4,10 @@
   "version": "1.0.0",
   "description": "PLYSS Admin — native desktop console for the Plateau Yoruba Statistical Survey",
   "author": "PLYSS",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/aweng-dev/plyss-desktop.git"
+  },
   "main": "out/main/index.js",
   "scripts": {
     "dev": "electron-vite dev",
@@ -14,12 +18,14 @@
     "dist": "electron-vite build && electron-builder",
     "dist:mac": "electron-vite build && electron-builder --mac",
     "dist:win": "electron-vite build && electron-builder --win",
-    "dist:linux": "electron-vite build && electron-builder --linux"
+    "dist:linux": "electron-vite build && electron-builder --linux",
+    "release": "electron-vite build && electron-builder --publish always"
   },
   "dependencies": {
     "@fontsource/fraunces": "^5.2.9",
     "@fontsource/hanken-grotesk": "^5.2.8",
     "@fontsource/jetbrains-mono": "^5.2.8",
+    "electron-updater": "^6.8.9",
     "html-to-image": "^1.11.13",
     "lucide-react": "^0.344.0",
     "qrcode.react": "^4.2.0",

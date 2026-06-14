@@ -1,0 +1,48 @@
+name: Release
+
+# Cut a release by pushing a version tag, e.g.:
+#   npm version 1.0.1 --no-git-tag-version   # bump package.json
+#   git commit -am "release: v1.0.1" && git tag v1.0.1 && git push --follow-tags
+#
+# Each OS builds its own installers and uploads them — plus the auto-update
+# manifests (latest*.yml) — to a GitHub Release for the tag. electron-builder
+# creates the release as a DRAFT; review the assets, then click "Publish release"
+# to make the update visible to installed apps.
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [macos-latest, windows-latest, ubuntu-latest]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build and publish
+        env:
+          # Default token; has contents:write for this repo via the job permission.
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          # No Apple Developer cert in CI — skip mac code signing. (macOS
+          # auto-update needs signing + notarization; configure CSC_LINK /
+          # APPLE_ID secrets here to enable it.)
+          CSC_IDENTITY_AUTO_DISCOVERY: false
+        run: npm run release
