@@ -243,4 +243,44 @@ npm run release
 | --- | --- | --- |
 | Windows (NSIS) | ✅ works unsigned | SmartScreen may warn on first install |
 | Linux (AppImage) | ✅ works unsigned | |
-| macOS | ⚠️ needs signing | Squirrel.Mac refuses unsigned updates. Configure a Developer ID (`CSC_LINK`/`CSC_KEY_PASSWORD`) + notarization to enable; until then the mac check fails quietly and users update by downloading a new build. |
+| macOS | ⚠️ needs signing | Squirrel.Mac refuses unsigned updates — enable signing + notarization (below). Until then the mac check fails quietly and users update by downloading a new build. |
+
+### Enabling macOS code signing + notarization
+
+The CI is already wired for it: `electron-builder.cjs` signs + notarizes the mac
+build **automatically when the credentials are present**, and the release workflow
+forwards them from repo secrets (no-op until you add them). To turn it on:
+
+1. **Enroll** in the [Apple Developer Program](https://developer.apple.com/programs/)
+   ($99/yr). Note your **Team ID** (10 chars, e.g. `AB12CD34EF`).
+2. **Create a “Developer ID Application” certificate** (Xcode ▸ Settings ▸ Accounts ▸
+   Manage Certificates, or developer.apple.com ▸ Certificates). In **Keychain Access**,
+   export it as a `.p12` with a password.
+3. **Base64-encode** the `.p12`:
+   ```bash
+   base64 -i DeveloperID.p12 | pbcopy
+   ```
+4. **Create an app-specific password** at [appleid.apple.com](https://appleid.apple.com)
+   ▸ Sign-In & Security ▸ App-Specific Passwords.
+5. **Add these GitHub Actions secrets** (repo ▸ Settings ▸ Secrets and variables ▸ Actions):
+
+   | Secret | Value |
+   | --- | --- |
+   | `MAC_CSC_LINK` | the base64 string from step 3 |
+   | `MAC_CSC_KEY_PASSWORD` | the `.p12` export password |
+   | `APPLE_ID` | your Apple ID email |
+   | `APPLE_APP_SPECIFIC_PASSWORD` | the app-specific password from step 4 |
+   | `APPLE_TEAM_ID` | your Team ID from step 1 |
+
+6. **Cut the next release** (tag a version) — CI will now sign + notarize the mac
+   build, the Gatekeeper warning disappears, and macOS auto-update works.
+
+> The GitHub macOS runner is Apple Silicon, so this produces an **arm64** mac
+> build. To also cover Intel Macs, build a universal binary (`--universal`).
+
+To sign locally instead of in CI, export the same values and run `npm run release`:
+```bash
+export CSC_LINK=$(base64 -i DeveloperID.p12) CSC_KEY_PASSWORD=… \
+       APPLE_ID=… APPLE_APP_SPECIFIC_PASSWORD=… APPLE_TEAM_ID=…
+npm run release
+```
